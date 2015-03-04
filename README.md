@@ -1,20 +1,16 @@
-Cipher Safe for Android and iOS
-==============================
+# Cipher Safe for Android and iOS
 
-This project was created to compliment an article I wrote on [AirPair.com](http://www.airpair.com).  
-It demonstrates how to use the Forge JavaScript cipher-text library and Firebase to create a 1Password, LastPass, or KeePass competitor with Ionic Framework.
+This project was created to compliment an article I wrote on [AirPair.com](http://www.airpair.com).  It demonstrates how to use the Forge JavaScript cipher-text library and Firebase to create a 1Password, LastPass, or KeePass competitor with Ionic Framework.
 
 
-Requirements
--------------
+## Requirements
 
 * Apache Cordova 4.0+
 * Firebase
 * Ionic CLI 1.3.11+
 
 
-Configuration
--------------
+## Configuration
 
 Download this example project from GitHub and run the following commands:
 
@@ -43,8 +39,7 @@ With your Firebase instance id in hand, open **www/js/app.js** and find the foll
 You will want to replace **INSTANCE_ID_HERE** with your actual instance id.
 
 
-Usage
--------------
+## Usage
 
 With this example project configured on your computer, run the following from the Terminal or command prompt:
 
@@ -66,14 +61,12 @@ You will be required to sign in to Firebase to use this application.  There is n
 Passwords are encrypted before storing on Firebase and transferred over a secure HTTPS connection.
 
 
-Have a question or found a bug (compliments work too)?
--------------
+## Have a question or found a bug (compliments work too)?
 
 Tweet me on Twitter - [@nraboy](https://www.twitter.com/nraboy)
 
 
-Resources
--------------
+## Resources
 
 Nic Raboy's Code Blog - [https://blog.nraboy.com](https://blog.nraboy.com)
 
