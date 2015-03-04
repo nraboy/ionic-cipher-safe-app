@@ -1,0 +1,20 @@
+<ion-view title="Unlock Vault" ng-init="init()">
+    <ion-content>
+        <div class="padding-left padding-top padding-right">
+            <h1>Welcome</h1>
+        </div>
+        <div>
+            <div class="list list-inset">
+                <label class="item item-input">
+                    <input ng-model="masterpassword" type="password" placeholder="Master Password" />
+                </label>
+            </div>
+            <div class="padding-left padding-right">
+                <div class="button-bar">
+                    <a class="button" ng-click="unlock(masterpassword)">Unlock</a>
+                    <a class="button" ng-click="reset()">Reset</a>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,22 @@
+<ion-view title="Create Vault" ng-init="init()">
+    <ion-content>
+        <div class="padding-left padding-top padding-right">
+            <h1>Welcome</h1>
+        </div>
+        <div>
+            <div class="list list-inset">
+                <label class="item item-input">
+                    <input ng-model="masterpassword" type="password" placeholder="Master Password" />
+                </label>
+                <label class="item item-input">
+                    <input ng-model="confirmmasterpassword" type="password" placeholder="Confirm Master Password" />
+                </label>
+            </div>
+            <div class="padding-left padding-right">
+                <div class="button-bar">
+                    <a class="button" ng-click="create(masterpassword)">Create</a>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>
