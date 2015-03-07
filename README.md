@@ -6,7 +6,8 @@ This project was created to compliment an article I wrote on [AirPair.com](http:
 ## Requirements
 
 * Apache Cordova 4.0+
-* Firebase
+* Firebase 2.2.2+
+* AngularFire 1.0.0+
 * Ionic CLI 1.3.11+
 
 

@@ -55,7 +55,7 @@ cipherSafe.config(function($stateProvider, $urlRouterProvider) {
 });
 
 
-cipherSafe.controller("VaultController", function($scope, $state, $ionicHistory, $firebase, $cipherFactory) {
+cipherSafe.controller("VaultController", function($scope, $state, $ionicHistory, $firebaseObject, $firebaseAuth, $cipherFactory) {
 
     $ionicHistory.nextViewOptions({
         disableAnimate: true,
@@ -69,7 +69,7 @@ cipherSafe.controller("VaultController", function($scope, $state, $ionicHistory,
     var fbAuth = fb.getAuth();
     if(fbAuth) {
         var userReference = fb.child("users/" + fbAuth.uid);
-        var syncObject = $firebase(userReference).$asObject();
+        var syncObject = $firebaseObject(userReference);
         syncObject.$bindTo($scope, "data");
     } else {
         $state.go("firebase");
@@ -86,16 +86,19 @@ cipherSafe.controller("VaultController", function($scope, $state, $ionicHistory,
 
     $scope.create = function(masterPassword) {
         syncObject.$loaded().then(function() {
-            $scope.data.masterPassword = $cipherFactory.encrypt("Authenticated", masterPassword);
-            $state.go("locked");
+            userReference.child("masterPassword").set($cipherFactory.encrypt("Authenticated", masterPassword), function(error) {
+                $state.go("locked");
+            });
         });
     }
 
     $scope.reset = function() {
-        $firebase(userReference).$set("categories", {}).then(function(ref) {
-            $firebase(userReference).$set("masterPassword", {}).then(function(ref) {
+        userReference.remove(function(error) {
+            if(error) {
+                console.error("ERROR: " + error);
+            } else {
                 $state.go("createvault");
-            });
+            }
         });
     }
 
@@ -122,7 +125,7 @@ cipherSafe.controller("FirebaseController", function($scope, $state, $ionicHisto
 
     $scope.register = function(username, password) {
         var fbAuth = $firebaseAuth(fb);
-        fbAuth.$createUser(username, password).then(function() {
+        fbAuth.$createUser({email: username, password: password}).then(function(userData) {
             return fbAuth.$authWithPassword({
                 email: username,
                 password: password
@@ -136,7 +139,7 @@ cipherSafe.controller("FirebaseController", function($scope, $state, $ionicHisto
 
 });
 
-cipherSafe.controller("CategoryController", function($scope, $ionicPopup, $firebase, $stateParams, $cipherFactory) {
+cipherSafe.controller("CategoryController", function($scope, $ionicPopup, $firebaseObject, $stateParams, $cipherFactory) {
 
     $scope.masterPassword = $stateParams.masterPassword;
     $scope.categories = [];
@@ -144,7 +147,7 @@ cipherSafe.controller("CategoryController", function($scope, $ionicPopup, $fireb
     var fbAuth = fb.getAuth();
     if(fbAuth) {
         var categoriesReference = fb.child("users/" + fbAuth.uid);
-        var syncObject = $firebase(categoriesReference).$asObject();
+        var syncObject = $firebaseObject(categoriesReference);
         syncObject.$bindTo($scope, "data");
     } else {
         $state.go("firebase");
@@ -191,7 +194,7 @@ cipherSafe.controller("CategoryController", function($scope, $ionicPopup, $fireb
 
 });
 
-cipherSafe.controller("PasswordController", function($scope, $stateParams, $firebase, $state, $cipherFactory, $timeout, $ionicHistory) {
+cipherSafe.controller("PasswordController", function($scope, $stateParams, $firebaseObject, $state, $cipherFactory, $timeout, $ionicHistory) {
 
     $scope.masterPassword = $stateParams.masterPassword;
     $scope.categoryId = $stateParams.categoryId;
@@ -201,7 +204,7 @@ cipherSafe.controller("PasswordController", function($scope, $stateParams, $fire
     if(fbAuth) {
         var categoryReference = fb.child("users/" + fbAuth.uid + "/categories/" + $stateParams.categoryId);
         var passwordsReference = fb.child("users/" + fbAuth.uid + "/categories/" + $stateParams.categoryId + "/passwords");
-        var syncObject = $firebase(categoryReference).$asObject();
+        var syncObject = $firebaseObject(categoryReference);
         syncObject.$bindTo($scope, "data");
     } else {
         $state.go("firebase");
@@ -235,7 +238,7 @@ cipherSafe.controller("PasswordController", function($scope, $stateParams, $fire
             password: password
         };
         syncObject.$loaded().then(function() {
-            $firebase(passwordsReference).$set(JSON.stringify(passwordObject).toSHA1(), $cipherFactory.encrypt(JSON.stringify(passwordObject), $stateParams.masterPassword)).then(function(ref) {
+            passwordsReference.child(JSON.stringify(passwordObject).toSHA1()).set($cipherFactory.encrypt(JSON.stringify(passwordObject), $stateParams.masterPassword), function(ref) {
                 $state.go("passwords", $stateParams);
             });
         });
