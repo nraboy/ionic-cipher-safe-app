@@ -1,5 +1,5 @@
 var cipherSafe = angular.module("ciphersafe", ["ionic", "firebase"]);
-var fb = null;
+var fb = new Firebase("https://amber-inferno-4704.firebaseio.com/");;
 
 cipherSafe.run(function($ionicPlatform, $state) {
     $ionicPlatform.ready(function() {
@@ -62,10 +62,6 @@ cipherSafe.controller("VaultController", function($scope, $state, $ionicHistory,
         disableBack: true
     });
 
-    if(!fb) {
-        fb = new Firebase("https://INSTANCE_ID_HERE.firebaseio.com/");
-    }
-
     var fbAuth = fb.getAuth();
     if(fbAuth) {
         var userReference = fb.child("users/" + fbAuth.uid);
@@ -111,8 +107,9 @@ cipherSafe.controller("FirebaseController", function($scope, $state, $ionicHisto
         disableBack: true
     });
 
+    var fbAuth = $firebaseAuth(fb);
+
     $scope.login = function(username, password) {
-        var fbAuth = $firebaseAuth(fb);
         fbAuth.$authWithPassword({
             email: username,
             password: password
@@ -124,7 +121,6 @@ cipherSafe.controller("FirebaseController", function($scope, $state, $ionicHisto
     }
 
     $scope.register = function(username, password) {
-        var fbAuth = $firebaseAuth(fb);
         fbAuth.$createUser({email: username, password: password}).then(function(userData) {
             return fbAuth.$authWithPassword({
                 email: username,
@@ -133,7 +129,7 @@ cipherSafe.controller("FirebaseController", function($scope, $state, $ionicHisto
         }).then(function(authData) {
             $state.go("createvault");
         }).catch(function(error) {
-            console.error("ERROR " + error);
+            console.error("ERROR: " + error);
         });
     }
 
