@@ -1,5 +1,5 @@
 var cipherSafe = angular.module("ciphersafe", ["ionic", "firebase"]);
-var fb = new Firebase("https://amber-inferno-4704.firebaseio.com/");
+var fb = new Firebase("https://INSTANCE_ID_HERE.firebaseio.com/");
 
 cipherSafe.run(function($ionicPlatform, $state) {
     $ionicPlatform.ready(function() {
