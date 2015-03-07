@@ -1,5 +1,5 @@
 var cipherSafe = angular.module("ciphersafe", ["ionic", "firebase"]);
-var fb = new Firebase("https://amber-inferno-4704.firebaseio.com/");;
+var fb = new Firebase("https://amber-inferno-4704.firebaseio.com/");
 
 cipherSafe.run(function($ionicPlatform, $state) {
     $ionicPlatform.ready(function() {
@@ -55,7 +55,7 @@ cipherSafe.config(function($stateProvider, $urlRouterProvider) {
 });
 
 
-cipherSafe.controller("VaultController", function($scope, $state, $ionicHistory, $firebaseObject, $firebaseAuth, $cipherFactory) {
+cipherSafe.controller("VaultController", function($scope, $state, $ionicHistory, $firebaseObject, $cipherFactory) {
 
     $ionicHistory.nextViewOptions({
         disableAnimate: true,
@@ -190,7 +190,7 @@ cipherSafe.controller("CategoryController", function($scope, $ionicPopup, $fireb
 
 });
 
-cipherSafe.controller("PasswordController", function($scope, $stateParams, $firebaseObject, $state, $cipherFactory, $timeout, $ionicHistory) {
+cipherSafe.controller("PasswordController", function($scope, $stateParams, $firebaseObject, $state, $cipherFactory, $ionicHistory) {
 
     $scope.masterPassword = $stateParams.masterPassword;
     $scope.categoryId = $stateParams.categoryId;
