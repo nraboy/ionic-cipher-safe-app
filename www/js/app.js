@@ -1,5 +1,5 @@
 var cipherSafe = angular.module("ciphersafe", ["ionic", "firebase"]);
-var fb = new Firebase("https://INSTANCE_ID_HERE.firebaseio.com/");
+var fb = new Firebase("https://amber-inferno-4704.firebaseio.com/");
 
 cipherSafe.run(function($ionicPlatform, $state) {
     $ionicPlatform.ready(function() {
@@ -10,6 +10,9 @@ cipherSafe.run(function($ionicPlatform, $state) {
             StatusBar.styleDefault();
         }
     });
+    document.addEventListener("resume", function() {
+        $state.go("locked", {}, {location: "replace"});
+    }, false);
 });
 
 cipherSafe.config(function($stateProvider, $urlRouterProvider) {
@@ -56,6 +59,8 @@ cipherSafe.config(function($stateProvider, $urlRouterProvider) {
 
 
 cipherSafe.controller("VaultController", function($scope, $state, $ionicHistory, $firebaseObject, $cipherFactory) {
+
+    $ionicHistory.clearHistory();
 
     $ionicHistory.nextViewOptions({
         disableAnimate: true,
